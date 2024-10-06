@@ -1,6 +1,7 @@
 package com.vikas.EcomProductService.Service;
 
 import com.vikas.EcomProductService.DTO.ProductListResponseDTO;
+import com.vikas.EcomProductService.DTO.ProductRequestDTO;
 import com.vikas.EcomProductService.DTO.ProductResponseDTO;
 import com.vikas.EcomProductService.Model.Product;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,13 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product createProduct(Product product) {
+    public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
         return null;
     }
 
     @Override
-    public Product deleteProduct(int id) {
-        return null;
+    public boolean deleteProduct(int id) {
+        return false;
     }
 
     @Override

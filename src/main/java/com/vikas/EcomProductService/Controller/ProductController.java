@@ -1,30 +1,32 @@
 package com.vikas.EcomProductService.Controller;
 
 import com.vikas.EcomProductService.DTO.ProductListResponseDTO;
+import com.vikas.EcomProductService.DTO.ProductRequestDTO;
 import com.vikas.EcomProductService.DTO.ProductResponseDTO;
 import com.vikas.EcomProductService.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 
 public class ProductController {
 
-    @Autowired
+   /**
+     Field Injection
+     @Autowired
     @Qualifier("fakeStoreProductService")
     ProductService productService;
+   **/
 
 
+    private final ProductService productService;
+
+    @Autowired
+    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/product")
     public ResponseEntity<ProductListResponseDTO> getAllProducts() {
@@ -52,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable int id) {
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") int id) {
        /* ProductResponseDTO p1 = new ProductResponseDTO();
         p1.setId(1);
         p1.setTitle("Iphone 15 pro");
@@ -74,6 +76,18 @@ public class ProductController {
         */
         ProductResponseDTO products = productService.getProductById(id);
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping("/products")
+    public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO){
+        ProductResponseDTO productResponseDTO = productService.createProduct(productRequestDTO);
+        return ResponseEntity.ok(productResponseDTO);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Boolean> deleteProductById(@PathVariable int id){
+        boolean response = productService.deleteProduct(id);
+        return ResponseEntity.ok(response);
     }
 
 }
