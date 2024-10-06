@@ -1,6 +1,7 @@
 package com.vikas.EcomProductService.Service;
 
 import com.vikas.EcomProductService.DTO.ProductListResponseDTO;
+import com.vikas.EcomProductService.DTO.ProductRequestDTO;
 import com.vikas.EcomProductService.DTO.ProductResponseDTO;
 import com.vikas.EcomProductService.Model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,14 @@ public class FakeStoreProductServiceImpl implements ProductService {
     public ProductListResponseDTO getAllProducts() {
         String getAllProductsURL = "https://fakestoreapi.com/products";
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<ProductListResponseDTO> listResponseEntity =
-                restTemplate.getForEntity(getAllProductsURL, ProductListResponseDTO.class);
-        // need to done again
-        return listResponseEntity.getBody();
+        ResponseEntity<ProductResponseDTO[]> arrayResponseEntity =
+                restTemplate.getForEntity(getAllProductsURL, ProductResponseDTO[].class);
+
+        ProductListResponseDTO productListResponseDTO = new ProductListResponseDTO();
+        for(ProductResponseDTO productResponseDTO : arrayResponseEntity.getBody()){
+            productListResponseDTO.getProducts().add(productResponseDTO);
+        }
+        return productListResponseDTO;
     }
 
     @Override
@@ -39,13 +44,20 @@ public class FakeStoreProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return null;
+    public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
+        String createProductURl = "https://fakestoreapi.com/products/";
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<ProductResponseDTO>  responseDTOResponseEntity =
+                restTemplate.postForEntity(createProductURl, productRequestDTO, ProductResponseDTO.class);
+        return responseDTOResponseEntity.getBody();
     }
 
     @Override
-    public Product deleteProduct(int id) {
-        return null;
+    public boolean deleteProduct(int id) {
+        String deleteProductURl = "https://fakestoreapi.com/products/" + id;
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        restTemplate.delete(deleteProductURl);
+        return true;
     }
 
     @Override
