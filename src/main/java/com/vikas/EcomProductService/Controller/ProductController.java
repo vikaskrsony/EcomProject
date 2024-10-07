@@ -3,6 +3,7 @@ package com.vikas.EcomProductService.Controller;
 import com.vikas.EcomProductService.DTO.ProductListResponseDTO;
 import com.vikas.EcomProductService.DTO.ProductRequestDTO;
 import com.vikas.EcomProductService.DTO.ProductResponseDTO;
+import com.vikas.EcomProductService.Exception.ProductNotFoundException;
 import com.vikas.EcomProductService.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -54,7 +55,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") int id) {
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") int id) throws ProductNotFoundException {
        /* ProductResponseDTO p1 = new ProductResponseDTO();
         p1.setId(1);
         p1.setTitle("Iphone 15 pro");
@@ -89,5 +90,7 @@ public class ProductController {
         boolean response = productService.deleteProduct(id);
         return ResponseEntity.ok(response);
     }
+
+
 
 }
