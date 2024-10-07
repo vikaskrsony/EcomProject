@@ -2,6 +2,7 @@ package com.vikas.EcomProductService.Service;
 
 import com.vikas.EcomProductService.Client.FakeStoreAPIClient;
 import com.vikas.EcomProductService.DTO.*;
+import com.vikas.EcomProductService.Exception.ProductNotFoundException;
 import com.vikas.EcomProductService.Mapper.ProductMapper;
 import com.vikas.EcomProductService.Model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,11 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
 import static com.vikas.EcomProductService.Mapper.ProductMapper.*;
+import static com.vikas.EcomProductService.Util.ProductUtils.*;
 
 @Service("fakeStoreProductService")
 public class FakeStoreProductServiceImpl implements ProductService {
@@ -25,25 +30,40 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
     @Override
     public ProductListResponseDTO getAllProducts() {
-        String getAllProductsURL = "https://fakestoreapi.com/products";
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<ProductResponseDTO[]> arrayResponseEntity =
-                restTemplate.getForEntity(getAllProductsURL, ProductResponseDTO[].class);
+        /** Service layer impl to call 3rd Party
+         String getAllProductsURL = "https://fakestoreapi.com/products";
+         RestTemplate restTemplate = restTemplateBuilder.build();
+         ResponseEntity<ProductResponseDTO[]> arrayResponseEntity =
+         restTemplate.getForEntity(getAllProductsURL, ProductResponseDTO[].class);
 
+         ProductListResponseDTO productListResponseDTO = new ProductListResponseDTO();
+         for (ProductResponseDTO productResponseDTO : arrayResponseEntity.getBody()) {
+         productListResponseDTO.getProducts().add(productResponseDTO);
+         }
+         return productListResponseDTO; **/
+        List<FakeStoreProductResponseDTO> fakeStoreProductResponseDTOList = fakeStoreAPIClient.getAllProducts();
         ProductListResponseDTO productListResponseDTO = new ProductListResponseDTO();
-        for (ProductResponseDTO productResponseDTO : arrayResponseEntity.getBody()) {
-            productListResponseDTO.getProducts().add(productResponseDTO);
+        for (FakeStoreProductResponseDTO fakeStoreProductResponseDTO : fakeStoreProductResponseDTOList) {
+            productListResponseDTO.getProducts().add(fakeStoreProductResponseDTOProductResponseDTO(fakeStoreProductResponseDTO));
         }
         return productListResponseDTO;
     }
 
     @Override
-    public ProductResponseDTO getProductById(int id) {
-        String getAllProductsURL = "https://fakestoreapi.com/products/" + id;
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<ProductResponseDTO> listResponseEntity =
-                restTemplate.getForEntity(getAllProductsURL, ProductResponseDTO.class);
-        return listResponseEntity.getBody();
+    public ProductResponseDTO getProductById(int id) throws ProductNotFoundException {
+        /** Service layer impl to call 3rd Party
+         String getAllProductsURL = "https://fakestoreapi.com/products/" + id;
+         RestTemplate restTemplate = restTemplateBuilder.build();
+         ResponseEntity<ProductResponseDTO> listResponseEntity =
+         restTemplate.getForEntity(getAllProductsURL, ProductResponseDTO.class);
+         return listResponseEntity.getBody();
+         **/
+        FakeStoreProductResponseDTO fakeStoreProductResponseDTO = fakeStoreAPIClient.getProductById(id);
+        if (isNull(fakeStoreProductResponseDTO)) {
+            throw new ProductNotFoundException("Product not found with id : " + id);
+        }
+        return fakeStoreProductResponseDTOProductResponseDTO(fakeStoreAPIClient.getProductById(id));
+
     }
 
     @Override
@@ -80,9 +100,13 @@ public class FakeStoreProductServiceImpl implements ProductService {
 
     @Override
     public boolean deleteProduct(int id) {
-        String deleteProductURl = "https://fakestoreapi.com/products/" + id;
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        restTemplate.delete(deleteProductURl);
+        /** Service layer impl to call 3rd Party
+         String deleteProductURl = "https://fakestoreapi.com/products/" + id;
+         RestTemplate restTemplate = restTemplateBuilder.build();
+         restTemplate.delete(deleteProductURl);
+         return true;
+         **/
+        fakeStoreAPIClient.deleteProduct(id);
         return true;
     }
 
