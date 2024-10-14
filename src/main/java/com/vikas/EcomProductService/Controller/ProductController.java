@@ -24,11 +24,15 @@ public class ProductController {
 
     private final ProductService productService;
 
+//    @Autowired
+//    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+//        this.productService = productService;
+//    }
+
     @Autowired
-    public ProductController(@Qualifier("fakeStoreProductService") ProductService productService) {
+    public ProductController(@Qualifier("productService") ProductService productService) {
         this.productService = productService;
     }
-
     @GetMapping("/product")
     public ResponseEntity<ProductListResponseDTO> getAllProducts() {
        /* ProductResponseDTO p1 = new ProductResponseDTO();
@@ -79,8 +83,14 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/product/title/{title}")
+    public ResponseEntity<ProductResponseDTO> getProductByTitle(@PathVariable("title") String title){
+        ProductResponseDTO productResponseDTO = productService.findProductByTitle(title);
+        return ResponseEntity.ok(productResponseDTO);
+    }
+
     @PostMapping("/products")
-    public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO){
+    public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody ProductRequestDTO productRequestDTO){
         ProductResponseDTO productResponseDTO = productService.createProduct(productRequestDTO);
         return ResponseEntity.ok(productResponseDTO);
     }

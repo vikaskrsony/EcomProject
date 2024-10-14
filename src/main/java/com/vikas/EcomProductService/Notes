@@ -1,0 +1,4 @@
+Ambiguous handler methods mapped for --> there are two controller doing the same thing so
+                                          that's why we are getting this error
+                                          ex : @GetMapping("/product/{id})
+                                               @GetMapping("/product/{title})

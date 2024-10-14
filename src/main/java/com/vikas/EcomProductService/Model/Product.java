@@ -23,6 +23,9 @@ public class Product extends BaseModel {
     @OneToOne
     private Price price;
 
+//    @ManyToMany(mappedBy = "products")
+//    private List<Order> orders;
+
 }
 /*
     Product - Category

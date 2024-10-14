@@ -75,9 +75,16 @@ public class InitServiceImpl implements InitService {
         watch.setCategory(electronics);
         watch = productRepository.save(watch);
 
+        Product ps5 = new Product();
+        ps5.setTitle("Best Gaming experience");
+        ps5.setDescription("Best ps5 ever");
+        ps5.setImage("http://someImageURl");
+        ps5.setPrice(pricePS5);
+        ps5.setCategory(electronics);
+        ps5 = productRepository.save(ps5);
+
         Order order = new Order();
-        order.setProducts(List.of(iphone, macbook, watch));
-        order.setPrice(300000); // Example price
+        order.setProducts(List.of(iphone, macbook, watch,ps5));
         order = orderRepository.save(order);
     }
 }
