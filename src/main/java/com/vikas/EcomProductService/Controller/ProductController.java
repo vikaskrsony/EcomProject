@@ -84,7 +84,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/title/{title}")
-    public ResponseEntity<ProductResponseDTO> getProductByTitle(@PathVariable("title") String title){
+    public ResponseEntity<ProductResponseDTO> getProductByTitle(@PathVariable("title") String title) throws Exception {
         ProductResponseDTO productResponseDTO = productService.findProductByTitle(title);
         return ResponseEntity.ok(productResponseDTO);
     }

@@ -1,6 +1,6 @@
 package com.vikas.EcomProductService.Exception;
 
-public class ProductNotFoundException extends Exception{
+public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException() {
     }
 
@@ -8,7 +8,4 @@ public class ProductNotFoundException extends Exception{
         super(message);
     }
 
-    public ProductNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }
