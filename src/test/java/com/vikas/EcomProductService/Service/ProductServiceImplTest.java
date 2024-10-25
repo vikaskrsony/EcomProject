@@ -95,7 +95,6 @@ public class ProductServiceImplTest {
 
     }
 
-
     @Test
     public void testFindProductByTitle_EmptyTitle() throws InvalidTitleException {
         //Arrange

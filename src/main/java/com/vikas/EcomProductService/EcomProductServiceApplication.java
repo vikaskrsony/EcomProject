@@ -10,11 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EcomProductServiceApplication implements CommandLineRunner {
 
 
-	InitService initService;
-
-	public EcomProductServiceApplication(InitService initService){
-		this.initService = initService;
-	}
+//	InitService initService;
+//
+//	public EcomProductServiceApplication(InitService initService){
+//		this.initService = initService;
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcomProductServiceApplication.class, args);

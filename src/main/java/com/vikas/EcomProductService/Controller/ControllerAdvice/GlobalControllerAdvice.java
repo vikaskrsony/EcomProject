@@ -17,11 +17,4 @@ public class GlobalControllerAdvice {
         errorResponseDTO.setMessageCode(404);
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(value = ArithmeticException.class)
-    public ResponseEntity<String> handleArithmeticException(Exception ex) {
-        String exceptionResponse =
-                "ye wala error hai bhai :-> " + ex.getMessage() + ", code :  " + HttpStatus.INTERNAL_SERVER_ERROR;
-        return ResponseEntity.ok(exceptionResponse);
-    }
 }
