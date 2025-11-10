@@ -1,6 +1,7 @@
 package com.ecom.ProductService.controllers;
 
 import com.ecom.ProductService.models.Product;
+import com.ecom.ProductService.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,15 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
+    private ProductService productService;
+
+    ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
     @GetMapping("/{id}")
     public Product getSingleProduct(@PathVariable("id") Long productId) {
-        return new Product();
+        return productService.getSingleProduct(productId);
     }
 
     @GetMapping("/")
