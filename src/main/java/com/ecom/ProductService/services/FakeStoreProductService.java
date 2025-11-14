@@ -28,6 +28,8 @@ public class FakeStoreProductService implements ProductService {
 
     @Override
     public List<Product> getAllProduct() {
+        restTemplate.getForEntity("https://fakestoreapi.com/products", FakeStoreProductDto.class);
+
         return List.of();
     }
 
