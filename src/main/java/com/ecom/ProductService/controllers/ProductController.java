@@ -2,11 +2,12 @@ package com.ecom.ProductService.controllers;
 
 import com.ecom.ProductService.models.Product;
 import com.ecom.ProductService.services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/products")
@@ -19,13 +20,13 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable("id") Long productId) {
-        return productService.getSingleProduct(productId);
+    public ResponseEntity<Product> getSingleProduct(@PathVariable("id") Long productId) {
+        return new ResponseEntity<>(productService.getSingleProduct(productId), HttpStatus.OK);
     }
 
     @GetMapping("/")
     public List<Product> getAllProducts() {
-        return new ArrayList<>();
+        return productService.getAllProduct();
     }
 
     @PostMapping("/")

@@ -3,12 +3,14 @@ package com.ecom.ProductService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+
 @SpringBootApplication
 public class ProductServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductServiceApplication.class, args);
-	}
-	//main class
 
+		SpringApplication.run(ProductServiceApplication.class, args);
+
+	}
 }
